@@ -22,130 +22,67 @@ end
 local grid = createGrid(textlines)
 
 
-function createSeenGrid(lines)
-    seengrid = {}
-    for k,line in pairs(lines) do
-        seengrid[k] = {}
-        for i =1, #line do
-            seengrid[k][i] = tonumber(line:sub(i,i))
-        end
-    end
-    return(seengrid)
-end
-local seenGrid = createSeenGrid(textlines)
-
-
 
 function printGrid(grid) 
     for k,row in pairs(grid) do
         rowstr = ""
         for i = 1, #row do
-            rowstr = rowstr..grid[k][i]
+            rowstr = rowstr..tostring(grid[k][i])
         end
         print(rowstr)
     end
 end
 
-function invertGrid(grid)
-    local invGrid = {}
-    for k=1,99 do
-        invGrid[k] = {}
-        for i,row in pairs(grid) do
-            invGrid[k][#invGrid[k]+1] = row[k]
+function IsVisible(tree,x,y)
+    if ((x == 1) or (x == #grid[1])) or ((y == 1) or (y == #grid)) then -- Checks if the tree is on the border
+        return true
+    end
+
+    --check left
+    local visible_Left = true
+    for i = x-1,1,-1 do
+        if tonumber(grid[y][i]) >= tree then
+            visible_Left = false
         end
     end
-    return(invGrid)
-end
-
-
-
-
-function checkLeft()
-    local count = 0
-    for k,row in pairs(grid) do
-        local maxHeight = -1
-        for i,tree in pairs(grid[k]) do
-            if seenGrid[k][i] ~= "X" then
-                if tree > maxHeight then
-                    maxHeight = tree
-                    count = count + 1
-                    seenGrid[k][i] = "X"
-                end
-            end
+    -- check right
+    local visible_Right = true
+    for i = x+1, #grid[1] do
+        if tonumber(grid[y][i]) >= tree then
+            visible_Right = false
         end
     end
-    return(count)
-end
-
-function checkRight()
-    local count = 0
-    for k,row in pairs(grid) do
-        local maxHeight = -1
-        for i = #grid[k],1,-1 do
-            local tree = grid[k][i]
-            if seenGrid[k][i] ~= "X" then
-                if tree > maxHeight then
-                    maxHeight = tree
-                    count = count + 1
-                    seenGrid[k][i] = "X"
-                end
-            end
+    -- check top
+    local visible_Top = true
+    for i = y-1,1,-1 do
+        if tonumber(grid[i][x]) >= tree then
+            visible_Top = false
         end
     end
-    return(count)
-end
-
-local invGrid = invertGrid(grid)
-local invSeenGrid = invertGrid(seenGrid)
-
-
-function checkTop()
-    local count = 0
-    for k,row in pairs(invGrid) do
-        local maxHeight = -1
-        for i,tree in pairs(invGrid[k]) do
-            if invSeenGrid[k][i] ~= "X" then
-                if tree > maxHeight then
-                    maxHeight = tree
-                    count = count + 1
-                    invSeenGrid[k][i] = "X"
-                end
-            end
+    -- check bottom
+    local visible_Bottom = true
+    for i = y+1,#grid do
+        if tonumber(grid[i][x]) >= tree then
+            visible_Bottom = false
         end
     end
-    return(count)
+    if visible_Left or visible_Right or visible_Bottom or visible_Top then
+        return true
+    else 
+        return false
+    end
 end
 
-function checkBottom()
-    local count = 0
-    for k,row in pairs(invGrid) do
-        local maxHeight = -1
-        for i = #invGrid[k],1,-1 do
-            local tree = invGrid[k][i]
-            if invSeenGrid[k][i] ~= "X" then
-                if tree > maxHeight then
-                    maxHeight = tree
-                    count = count + 1
-                    invSeenGrid[k][i] = "X"
-                end
-            end
-        end
-    end
-    return(count)
-end
 
 function task1()
     count = 0
-    count = count +checkLeft()
-    count = count + checkRight()
-    invGrid = invertGrid(grid)
-    invSeenGrid = invertGrid(seenGrid)
-    count = count + checkTop()
-    count = count + checkBottom()
-    printGrid(invGrid)
-    print("  ")
-    printGrid(invSeenGrid)
-    print(count)
+    for k,row in pairs(grid) do
+        for i,tree in pairs(row) do
+            if IsVisible(tonumber(tree),i,k) then
+                count = count + 1
+            end
+        end
+    end
+    return(count)
 end
-
-task1()
+print(task1())
