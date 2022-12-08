@@ -18,7 +18,7 @@ def parse(block):
 
     parts = command.split(" ")
     operation = parts[0]
-    if operation == "cd":
+    if operation == "cwd":
         if parts[1] == "..":
             path.pop()
         else:
