@@ -100,5 +100,5 @@ function Part2(score,FILE)
     end
     print(score)
 end
---Part1(score,FILE)
---Part2(score,FILE)
+Part1(score,FILE)
+Part2(score,FILE)
