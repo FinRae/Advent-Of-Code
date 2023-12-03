@@ -25,11 +25,9 @@ def part1(inpt):
 def part2(inpt):
     count = 0
     for line in inpt:
-        print(line)
         line = line.split(":")
         result = checkgamepart2((line[1]))
         count += result
-        print(result)
     return count
 
 
@@ -71,7 +69,6 @@ def checkgamepart2(game):
                            "g": 1,
                            "b": 2}
             localcolours[coloursdict[item[1][0]]] = max(localcolours[coloursdict[item[1][0]]], item[0])
-    print(localcolours)
     return localcolours[0]*localcolours[1]*localcolours[2]
 
 
@@ -82,6 +79,6 @@ def getID(str):
 
 if __name__ == "__main__":
     # Always runs, where the script runs the functions.
-    print(part1(parseinput()))
-    print(part2(parseinput()))
+    print(f"Part 1: {part1(parseinput())}")
+    print(f"Part 2: {part2(parseinput())}")
     pass
