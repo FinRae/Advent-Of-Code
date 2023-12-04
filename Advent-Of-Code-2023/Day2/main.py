@@ -37,7 +37,7 @@ def checkgamepart1(game):
     for i in range(len(game)):
         round = game[i]
         round = round.split(",")
-
+        
         localcolours = [0, 0, 0]
         for item in round:
             item = item.strip().split(" ")
