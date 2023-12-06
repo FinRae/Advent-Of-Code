@@ -23,15 +23,14 @@ def task(input,runastask2):
         digits = ""
         for i in range(len(line)):
             if line[i].isnumeric():
-                digits += line[i]
+                first = int(line[i])
                 break
         for i in range(len(line)):
             if line[::-1][i].isnumeric():
-                digits += line[::-1][i]
+                last = int(line[::-1][i])
                 break
-        count += int(digits)
+        count += first*10 + last
     return count
-
 
 if __name__ == "__main__":
     print(task(parseinput(),False))

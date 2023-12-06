@@ -1,11 +1,12 @@
 import math
+import time
+
 def parseinput():
     # This function is to parse the initial input into a usable form
     with open("input.dat") as file:
         inp = file.readlines()
         file.close()
     return inp
-
 def part1(inp):
     count = 0
     for line in inp:
